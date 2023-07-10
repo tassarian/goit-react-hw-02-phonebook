@@ -7,7 +7,6 @@ import {
 } from './ContactList.styled';
 
 export const ContactList = ({ filter, contacts, onDelete }) => {
-	console.log(contacts);
 	return (
 		<>
 			<StyledInput
