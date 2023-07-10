@@ -18,17 +18,22 @@ class App extends Component {
 		filter: '',
 	};
 
-	handleFormSubmit = data => {
+	handleFormSubmit = ({ name, number }) => {
 		this.setState(prevState => ({
-			contacts: [
-				...prevState.contacts,
-				{ id: nanoid(), name: data.name, number: data.number },
-			],
+			contacts: [...prevState.contacts, { id: nanoid(), name, number }],
 		}));
 	};
 
 	handleFilter = e => {
 		this.setState({ filter: e.target.value });
+	};
+
+	filteredContacts = string => {
+		return this.state.contacts.filter(contact => {
+			return contact.name
+				.toLowerCase()
+				.includes(this.state.filter.toLowerCase(string));
+		});
 	};
 
 	handleDelete = id => {
@@ -38,11 +43,6 @@ class App extends Component {
 	};
 
 	render() {
-		const filteredContacts = this.state.contacts.filter(contact =>
-			contact.name
-				.toLowerCase()
-				.includes(this.state.filter.toLocaleLowerCase())
-		);
 		return (
 			<Container>
 				<Section title="Phonebook">
@@ -54,7 +54,7 @@ class App extends Component {
 				<Section title="Contacts">
 					<ContactList
 						filter={this.handleFilter}
-						contacts={filteredContacts}
+						contacts={this.filteredContacts()}
 						onDelete={this.handleDelete}
 					/>
 				</Section>
